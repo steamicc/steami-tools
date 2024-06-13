@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>STeaMi screen simulator</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css" />
+        <script src="font.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="main_frame">
+            <div id="command_frame">
+                <table id="main_text_table">
+                    <tr>
+                        <th>Text</th>
+                        <th>Pos. X</th>
+                        <th>Pos. Y</th>
+                        <th>Del.</th>
+                    </tr>
+                </table>
+                <button onclick="add_text_line()">Add line</button>
+            </div>
+            <div id="canvas_frame">
+                <button onclick="draw()" title="Refresh canvas"></button>
+                <canvas id="main_canvas">
+                </canvas>
+            </div>
+        </div>
+        <script>
+            add_text_line();
+            draw();
+
+            addEventListener("resize", (event) => {draw();});
+        </script>
+    </body>
+</html>

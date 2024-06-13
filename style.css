@@ -1,0 +1,30 @@
+#main_container{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    left: 50%;
+    top: 50%;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    background-color: lightgray;
+}
+
+#title_bloc{
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 1.2em;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 8px 16px;
+}
+
+li a:visited, li a {
+    color: blue;
+    text-decoration: none;
+}
