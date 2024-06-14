@@ -16,6 +16,12 @@
                         <th>Pos. Y</th>
                         <th>Del.</th>
                     </tr>
+                    <tr id="text_line_2">
+                        <td><input class="text" type="text" placeholder="Text to display" onkeyup="draw()" onchange="draw()" value="Hello World !"></td>
+                        <td><input class="pos_x" type="number" title="X position" value="31" min="0" max="128" step="1" size="3" onkeyup="draw()" onchange="draw()"></td>
+                        <td><input class="pos_y" type="number" title="Y position" value="59" min="0" max="128" step="1" size="3" onkeyup="draw()" onchange="draw()"></td>
+                        <td><button title="Delete line" onclick="remove_line('text_line_2')">❌</button></td>
+                    </tr>
                 </table>
                 <button onclick="add_text_line()">Add line</button>
             </div>
@@ -26,7 +32,6 @@
             </div>
         </div>
         <script>
-            add_text_line();
             draw();
 
             addEventListener("resize", (event) => {draw();});
