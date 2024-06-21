@@ -2,6 +2,10 @@ body{
     padding: 4px;
 }
 
+.no_grow {
+    flex-grow: 0 !important;
+}
+
 #main_frame{
     display: flex;
     /* background-color: DodgerBlue; */
@@ -9,7 +13,7 @@ body{
 }
 
 #command_frame{
-    flex: 30%;
+    flex: 40%;
     /* background-color: green; */
     padding: 4px;
     border-right: 1px solid lightgray;
@@ -40,7 +44,7 @@ body{
 
 #canvas_frame{
     position: relative;
-    flex: 70%;
+    flex: 60%;
     padding: 4px;
 }
 
@@ -63,4 +67,30 @@ body{
     background-image: url("refresh.png");
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+#toolbox {
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 8px;
+    padding-top: 10px;
+    margin-top: 16px;
+}
+
+#toolbox .toolbox_title {
+    position: absolute;
+    top: calc(1em / -2 - 2px);
+    left: 10px;
+    background-color: #FFFFFF;
+}
+
+.input_field {
+    display: flex;
+}
+
+.input_field div:last-child{
+    flex: 1;
+    flex-grow: 1;
+    margin-left: 4px;
 }

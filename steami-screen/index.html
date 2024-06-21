@@ -11,19 +11,17 @@
             <div id="command_frame">
                 <table id="main_text_table">
                     <tr>
-                        <th>Text</th>
-                        <th>Pos. X</th>
-                        <th>Pos. Y</th>
+                        <th>Type</th>
+                        <th>Inputs</th>
                         <th>Del.</th>
                     </tr>
-                    <tr id="text_line_2">
-                        <td><input class="text" type="text" placeholder="Text to display" onkeyup="draw()" onchange="draw()" value="Hello World !"></td>
-                        <td><input class="pos_x" type="number" title="X position" value="31" min="0" max="128" step="1" size="3" onkeyup="draw()" onchange="draw()"></td>
-                        <td><input class="pos_y" type="number" title="Y position" value="59" min="0" max="128" step="1" size="3" onkeyup="draw()" onchange="draw()"></td>
-                        <td><button title="Delete line" onclick="remove_line('text_line_2')">❌</button></td>
-                    </tr>
                 </table>
-                <button onclick="add_text_line()">Add line</button>
+                <div id="toolbox">
+                    <div class="toolbox_title">Toolbox</div>
+                    <button onclick="add_text_line()">Text</button>
+                    <button onclick="add_rect_line()">Rectangle</button>
+                    <button onclick="add_circle_line()">Circle</button>
+                </div>
             </div>
             <div id="canvas_frame">
                 <button onclick="draw()" title="Refresh canvas"></button>
@@ -32,6 +30,15 @@
             </div>
         </div>
         <script>
+            add_text_line();
+
+            let demo = document.getElementById("text_line_2");
+            demo.getElementsByClassName("text")[0].value = "Hello World !";
+            demo.getElementsByClassName("pos_x")[0].value = 31;
+            demo.getElementsByClassName("pos_y")[0].value = 59;
+
+            add_circle_line();
+
             draw();
 
             addEventListener("resize", (event) => {draw();});
