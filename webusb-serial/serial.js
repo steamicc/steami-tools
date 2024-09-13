@@ -53,10 +53,10 @@ connect_button.addEventListener("click", async () => {
     });
 
     output_log_info("Connect to target");
-    await dap_target.connect().catch((e) => console.error(`Failed to connect  target "${e}"`));
-    await dap_target.setSerialBaudrate(115200).catch((e) => console.error(`Failed to set serial baudrate "${e}"`));;
+    await dap_target.connect().catch((e) => output_log_error(`Failed to connect  target "${e}"`));
+    await dap_target.setSerialBaudrate(115200).catch((e) => output_log_error(`Failed to set serial baudrate "${e}"`));;
     let baudrate = await dap_target.getSerialBaudrate();
-    await dap_target.disconnect().catch((e) => console.error(`Failed to disconnect target "${e}"`));
+    await dap_target.disconnect().catch((e) => output_log_error(`Failed to disconnect target "${e}"`));
     output_log_info(`Connected at ${baudrate} baud.`);
 
     dap_target.startSerialRead();
@@ -73,8 +73,8 @@ disconnect_button.addEventListener("click", async () => {
     output_log_info("Close target.");
     
     dap_target.stopSerialRead();
-    await dap_target.disconnect().catch((e) => console.error(`Failed to disconnect target "${e}"`));
-    await dap_transport.close().catch((e)=> console.error(`Failed to close target "${e}"`));
+    await dap_target.disconnect().catch((e) => output_log_error(`Failed to disconnect target "${e}"`));
+    await dap_transport.close().catch((e)=> output_log_error(`Failed to close target "${e}"`));
     
     dap_target = null;
     dap_transport = null;
@@ -99,9 +99,9 @@ send_button.addEventListener("click", async () => {
         return;
     }
 
-    await dap_target.connect().catch((e) => console.error(`Failed to connect target "${e}"`));
-    await dap_target.serialWrite(`${input_data.value}${get_eol_seq()}`).catch((e) => console.error(`Failed to write serial "${e}"`));
-    await dap_target.disconnect().catch((e) => console.error(`Failed to disconnect target "${e}"`));
+    await dap_target.connect().catch((e) => output_log_error(`Failed to connect target "${e}"`));
+    await dap_target.serialWrite(`${input_data.value}${get_eol_seq()}`).catch((e) => output_log_error(`Failed to write serial "${e}"`));
+    await dap_target.disconnect().catch((e) => output_log_error(`Failed to disconnect target "${e}"`));
 
     input_data.value = "";
 });
