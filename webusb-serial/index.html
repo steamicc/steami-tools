@@ -1,0 +1,39 @@
+<html></html>
+    <head>
+        <title>Serial Web-USB</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css" />
+
+    </head>
+    <body>
+        <div id="main_frame">
+            <div id="connect_frame">
+                <button id="connect_device">Connect</button>
+                <button id="disconnect_device" style="display: none">Disconnect</button>
+                <input type="number" min="1" max="1000000" value="115200" placeholder="Baudrate" title="Baudrate" />
+            </div>
+            <p>Input</p>
+            <div id="input_frame">
+                <input type="text" id="input_data"/>
+                <select id="endofline">
+                    <option value="">None</option>
+                    <option value="R">CR</option>
+                    <option value="N" selected>LF</option>
+                    <option value="RN">CR+LN</option>
+                </select>
+                <button id="send_button">Send</button>
+            </div>
+            <p>Output</p>
+            <div id="output_frame">
+                <textarea readonly id="output_area"></textarea>
+                <div id="bottom_menu">
+                    <button id="clear_output">Clear</button>
+                    <input type="checkbox" id="autoscroll" checked>Autoscroll
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="dap.umd.js"></script>
+        <script type="text/javascript" src="serial.js"></script>
+        <script>set_enable_send(false);</script>
+    </body>
+</html>

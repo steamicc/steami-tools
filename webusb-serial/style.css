@@ -1,0 +1,55 @@
+body{
+    padding: 4px;
+}
+
+p{
+    margin: 8px 0 4px 8px;
+}
+
+#main_frame{
+    display: flex;
+    /* background-color: DodgerBlue; */
+    height: 100%;
+    flex-direction: column;
+}
+
+#connect_frame{
+    display: flex;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+#connect_frame button{
+    flex: 1;
+    margin-right: 4px;
+}
+
+#input_frame{
+    display: flex;
+}
+
+
+#input_frame input[type=text]{
+    flex: 1;
+}
+
+#output_frame{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin: 0 4px;
+}
+
+#output_frame textarea{
+    width: 100%;
+    flex: 1;
+    margin-bottom: 4px;
+}
+
+#output_frame #bottom_menu{
+    display: flex;
+}
+
+#output_frame #bottom_menu button{
+    flex: 1;
+}
