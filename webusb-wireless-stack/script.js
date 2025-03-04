@@ -382,7 +382,7 @@ button_upload_fus.click(async function(){
         return;
     }
 
-    let resp_fw = await fetch(`./fus/${select_ws_mcu.val()}_${select_ws_firmware.val()}.hex`);
+    let resp_fw = await fetch(`./fus/${select_fus_mcu.val()}_${select_fus_firmware.val()}.hex`);
 
     if( resp_fw.status >= 300 ){
         output_log_error(`Failed to fetch hex file. (code: ${resp_fw.status}, ${resp_fw.statusText})`);
