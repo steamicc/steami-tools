@@ -40,7 +40,7 @@ ecrou_plats = 8;
 ecrou_epaisseur = 4;
 jeu_ecrou = 0.3;
 ecrou_profondeur = 3;           // matière entre le dessus du plot et l'écrou
-vis_longueur = 20;              // sous tête (vis de la patte)
+vis_longueur = 25;              // sous tête : M5 × 25 (patte avec la cale de 5 mm, et jonction)
 jonction_entraxe = 30;          // 2 vis M5 bras -> montant, de part et d'autre de la patte
 jonction_largeur = 44;          // largeur du plot et du dessus du montant (Y)
 

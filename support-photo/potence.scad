@@ -10,6 +10,7 @@ include <scad/tete.scad>
 include <scad/carte_contour.scad>
 include <scad/carte.scad>
 include <scad/potence_corps.scad>
+include <scad/cale.scad>
 
 if (piece == "gabarit" || piece == "bras") {
     // bras (empreinte de la tête), posé à plat : sert aussi de gabarit d'essai
@@ -20,6 +21,15 @@ if (piece == "gabarit" || piece == "bras") {
 } else if (piece == "potence") {
     // assemblage en place, pour les contrôles
     potence();
+} else if (piece == "cale") {
+    // cale de hauteur (épaisseur cale_epaisseur), posée à plat
+    cale(cale_epaisseur);
+} else if (piece == "controle_cale_objectif") {
+    // la cale dans l'ouverture de l'anneau : doit être vide
+    intersection() {
+        cale(cale_epaisseur);
+        translate([0, 0, -1]) cylinder(d = anneau_diametre, h = 50);
+    }
 } else if (piece == "controle_champ") {
     // ce que la caméra verrait de la pièce au-dessus du fond : doit être vide
     intersection() {
