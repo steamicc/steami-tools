@@ -65,4 +65,4 @@ def test_matiere_autour_des_trous_de_jonction():
     from openscad import bbox, rendre
 
     (xmin, ymin, _), (xmax, ymax, _) = bbox(rendre("controle_jonction_matiere"))
-    assert ymax - ymin >= 32 + 11 - 0.5  # les deux couronnes sont présentes
+    assert ymax - ymin >= 30 + 11 - 0.5  # entraxe 30 : les deux couronnes sont présentes

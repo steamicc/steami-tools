@@ -2,14 +2,30 @@
 // Choisir la pièce avec `piece`, par exemple :
 //   openscad -o stl/gabarit.stl -D 'piece="gabarit"' potence.scad
 
-piece = "gabarit";  // "gabarit" | "controle_cable" | "controle_cable_bas" | "controle_jonction" | "controle_jonction_matiere"
+piece = "potence";  // "bras" (= "gabarit") | "pied" | "potence" | "controle_champ"
+//                     contrôles : "controle_cable" | "controle_cable_bas" | "controle_jonction" | "controle_jonction_matiere"
 
 include <scad/parametres.scad>
 include <scad/tete.scad>
+include <scad/carte_contour.scad>
+include <scad/carte.scad>
+include <scad/potence_corps.scad>
 
-if (piece == "gabarit") {
-    // empreinte seule, posée à plat pour l'essai d'ajustement de la tête
-    translate([0, 0, -(z_appui_tete - plateau_epaisseur)]) empreinte_tete();
+if (piece == "gabarit" || piece == "bras") {
+    // bras (empreinte de la tête), posé à plat : sert aussi de gabarit d'essai
+    translate([0, 0, -(z_appui_tete - plateau_epaisseur)]) bras();
+} else if (piece == "pied") {
+    // socle + montant, posé à plat
+    translate([0, 0, socle_epaisseur]) pied();
+} else if (piece == "potence") {
+    // assemblage en place, pour les contrôles
+    potence();
+} else if (piece == "controle_champ") {
+    // ce que la caméra verrait de la pièce au-dessus du fond : doit être vide
+    intersection() {
+        potence();
+        champ();
+    }
 } else if (piece == "controle_cable") {
     // volume du bord au droit de la patte : doit être vide (passage du câble)
     intersection() {

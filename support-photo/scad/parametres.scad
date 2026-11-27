@@ -41,7 +41,7 @@ ecrou_epaisseur = 4;
 jeu_ecrou = 0.3;
 ecrou_profondeur = 3;           // matière entre le dessus du plot et l'écrou
 vis_longueur = 20;              // sous tête (vis de la patte)
-jonction_entraxe = 32;          // 2 vis M5 bras -> montant, de part et d'autre de la patte
+jonction_entraxe = 30;          // 2 vis M5 bras -> montant, de part et d'autre de la patte
 jonction_largeur = 44;          // largeur du plot et du dessus du montant (Y)
 
 // --- Relevés de la tâche 1 ----------------------------------------------
@@ -57,3 +57,36 @@ x_bord_patte = tete_longueur - objectif_depuis_bout;    // bord du corps côté 
 x_trou = x_bord_patte + patte_longueur - trou_depuis_bout;
 x_bout_patte = x_bord_patte + patte_longueur;
 plot_hauteur = tete_epaisseur - patte_epaisseur;        // sous la patte, depuis la face d'appui
+
+// --- Carte et socle (tâche 4) -------------------------------------------
+pcb_epaisseur = 1.6;
+carte_dessous = 8.4;            // composants sous la carte (support CR2032)
+jeu_carte = 0.3;
+rebord = 2.5;                   // largeur d'appui du circuit
+fond_epaisseur = 3;
+socle_epaisseur = 14;           // >= pcb + composants + 1 + fond
+socle_min = [150, 115];         // [grand côté, petit côté] du champ, centré sur l'axe
+decalage_carte = [0, 0];        // [x, y] : décaler la carte sous l'objectif
+doigt_rayon = 9;                // encoches pour saisir la carte
+doigt_gerber = [24.1, -40];     // bord de la carte (repère Gerber), symétrique en X
+usb_profondeur = 5;
+usb_rayon_depart = 26;          // depuis le centre du bout arrondi (repère Gerber)
+batterie_position = [58, 30];   // coin de la poche (x, y), hors champ
+tunnel = [8, 6];                // largeur, hauteur du tunnel du fil de batterie
+nervure = [30, 40, 5];          // longueur, hauteur, épaisseur des renforts du montant
+jonction_lamage = [10, 10];     // diamètre, profondeur du lamage des vis de jonction
+jonction_ecrou_profondeur = 4;  // matière entre le dessus du montant et l'écrou
+
+// --- Champ de la caméra -------------------------------------------------
+champ_ref = [140.6, 105.4];     // mesuré à champ_ref_distance de l'objectif
+champ_ref_distance = 119;
+cale_max = 5;
+marge_champ = 3;
+
+z_creux = pcb_epaisseur + carte_dessous + 1;
+z_champ = z_objectif + cale_max;                         // objectif le plus haut
+champ_sol = champ_ref * z_champ / champ_ref_distance + [2, 2] * marge_champ;
+champ_xy = capteur_rotation == 90 ? [champ_sol[1], champ_sol[0]] : champ_sol;
+socle_xy = capteur_rotation == 90 ? [socle_min[1], socle_min[0]] : socle_min;
+x_montant = x_bord_patte + fenetre_patte;               // face avant du montant (côté carte)
+x_dos = x_bout_patte + bord_epaisseur;                  // face arrière du montant

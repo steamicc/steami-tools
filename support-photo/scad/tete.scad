@@ -60,7 +60,11 @@ module empreinte_tete() {
         translate([x_trou, patte_decalage, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
         // trous des vis de jonction avec le montant
         for (dy = [-jonction_entraxe / 2, jonction_entraxe / 2])
-            translate([x_trou, patte_decalage + dy, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
+            translate([x_trou, patte_decalage + dy, z_bas - 1]) {
+                cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
+                translate([0, 0, z_plot - z_bas + 1 - jonction_lamage[1]])
+                    cylinder(d = jonction_lamage[0], h = jonction_lamage[1] + 1);
+            }
         // logement d'écrou, ouvert vers le bout du plot (+X)
         translate([x_trou, patte_decalage, z_plot - ecrou_profondeur - ecrou_epaisseur - jeu_ecrou]) {
             rotate([0, 0, 30]) ecrou_m5();
