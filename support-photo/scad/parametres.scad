@@ -5,7 +5,8 @@
 $fn = 96;
 
 // --- Hauteur -------------------------------------------------------------
-objectif_carte = 110;   // face vitrée de l'objectif -> dessus du circuit, avec la cale nominale
+objectif_carte = 116;   // face vitrée de l'objectif -> dessus du circuit, avec la cale nominale
+                        // (objectif à 120 mm de la table, V1c posée : circuit à ~4 mm = 10 - 6 du support d'écran)
 marge_cale = 3;         // la potence est dessinée plus basse d'autant ; la cale nominale la compense
 cale_epaisseur = 0;     // cale glissée sous la tête (0 à 5 mm) : sert au calcul de la vis
 
@@ -62,7 +63,7 @@ plot_hauteur = tete_epaisseur - patte_epaisseur;        // sous la patte, depuis
 
 // --- Carte et socle (tâche 4) -------------------------------------------
 pcb_epaisseur = 1.6;
-carte_dessous = 8.4;            // composants sous la carte (support CR2032)
+carte_dessous = 8.4;            // sous la carte : buzzer 3 mm (V1c), connecteurs Grove (V1b)
 jeu_carte = 0.3;
 rebord = 2.5;                   // largeur d'appui du circuit
 fond_epaisseur = 3;
@@ -71,8 +72,9 @@ socle_min = [150, 115];         // [grand côté, petit côté] du champ, centr�
 decalage_carte = [0, 0];        // [x, y] : décaler la carte sous l'objectif
 doigt_rayon = 9;                // encoches pour saisir la carte
 doigt_gerber = [24.1, -40];     // bord de la carte (repère Gerber), symétrique en X
-usb_profondeur = 5;
+usb_profondeur = 7.5;            // fiche USB-C branchée sous le circuit
 usb_rayon_depart = 26;          // depuis le centre du bout arrondi (repère Gerber)
+grove_gerber = [[14, -21], [34, -3]]; // V1b : connecteurs Grove sous la carte, [|x| min, y min], [|x| max, y max] (repère Gerber)
 batterie_position = [58, 30];   // coin de la poche (x, y), hors champ
 tunnel = [8, 6];                // largeur, hauteur du tunnel du fil de batterie
 nervure = [30, 40, 5];          // longueur, hauteur, épaisseur des renforts du montant

@@ -23,6 +23,10 @@ module cuvette() {
         for (sx = [-1, 1])
             translate([sx * doigt_gerber[0], doigt_gerber[1], -z_creux])
                 cylinder(r = doigt_rayon, h = z_creux + 1);
+        // place des connecteurs Grove (V1b) : rebord ouvert, sous le circuit seulement
+        for (sx = [-1, 1])
+            translate([sx > 0 ? grove_gerber[0][0] : -grove_gerber[1][0], grove_gerber[0][1], -z_creux])
+                cube([grove_gerber[1][0] - grove_gerber[0][0], grove_gerber[1][1] - grove_gerber[0][1], z_creux - pcb_epaisseur]);
         // passage de la fiche USB-C, jusqu'au bord du socle
         rotate(usb_angle) translate([-usb_largeur / 2, usb_rayon_depart, -usb_profondeur])
             cube([usb_largeur, 200, usb_profondeur + 1]);

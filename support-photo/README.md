@@ -1,6 +1,6 @@
 # Potence photo STeaMi
 
-Potence imprimée en 3D qui tient la tête d'une caméra de document à 110 mm
+Potence imprimée en 3D qui tient la tête d'une caméra de document à 116 mm
 au-dessus d'une carte STeaMi posée à plat. Chaque photo a ainsi le même
 cadrage, et la carte se change en quelques secondes.
 
@@ -26,7 +26,8 @@ La potence se compose de deux pièces assemblées une fois pour toutes :
 - **le pied** (`stl/pied.stl`) : un socle qui remplit tout le champ de la
   caméra et sert de fond aux photos, et un montant qui porte le bras. La carte
   se pose dans une cuvette et repose par les bords du circuit sur un rebord.
-  Le creux sous la carte loge les composants du dessous (support de pile). Le
+  Le creux sous la carte loge les composants du dessous (buzzer de la
+  V1c, connecteurs Grove de la V1b). Le
   câble USB-C sort par une rainure. La batterie LiPo se range dans une poche
   hors du champ, et son fil passe par un tunnel.
 
@@ -57,7 +58,7 @@ Les cotes de la tête et de la carte, et leur origine, sont dans
 | Cales | `stl/cale-1.stl` à `stl/cale-5.stl` | à plat | aucun |
 
 Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de
-9 mm. Le pied mesure environ 190 × 150 × 123 mm.
+9 mm. Le pied mesure environ 190 × 150 × 129 mm.
 
 ## Montage
 
@@ -75,10 +76,11 @@ Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de
 
 ## Réglage de la hauteur
 
-La potence est dessinée pour 107 mm entre la face vitrée de l'objectif et le
+La potence est dessinée pour 113 mm entre la face vitrée de l'objectif et le
 dessus du circuit, sans cale. La **cale de 3 mm** donne la hauteur nominale de
-110 mm, celle du cadrage d'origine. Les autres cales corrigent dans les deux
-sens, de 108 à 112 mm. Chaque cale comporte une plaque au contour de la tête et
+116 mm, celle du cadrage d'origine (objectif à 120 mm de la table, circuit de
+la V1c posée à ~4 mm). Les autres cales corrigent dans les deux sens, de 114 à
+118 mm. Chaque cale comporte une plaque au contour de la tête et
 une rondelle pour la patte, de même épaisseur.
 
 Pour un écart de plus de 2 mm, modifier `objectif_carte` ou `marge_cale` dans
@@ -99,7 +101,9 @@ Le grand côté de l'image suit la carte. Le bout arrondi de la carte apparaît
 
 ## Modifier le modèle
 
-Le modèle est en OpenSCAD (version 2021.01) :
+Le modèle est en OpenSCAD (version 2021.01). L'outil de contour et les tests
+sont en Python 3 et demandent numpy, Pillow et pytest.
+
 
 | Fichier | Rôle |
 |---|---|

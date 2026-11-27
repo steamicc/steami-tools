@@ -132,13 +132,15 @@ montant vertical à une extrémité, et en haut un plateau horizontal en porte-
 
 ### Hauteur
 
-110 mm entre la face vitrée de l'objectif et le dessus du circuit de la
-carte (objectif aujourd'hui à 120 mm de la table, carte posée de ~10 mm
-d'épaisseur). Le cadrage reste celui d'aujourd'hui : champ ≈ 130 × 98 mm
-au niveau de la carte, la carte en occupe ~70 % × 63 %.
+116 mm entre la face vitrée de l'objectif et le dessus du circuit de la
+carte (objectif aujourd'hui à 120 mm de la table ; les 10 mm d'épaisseur de
+la carte comprennent 6 mm de support d'écran au-dessus, donc le circuit de
+la V1c posée est à ~4 mm de la table). Corrigé le 2026-11-27 : la première
+version supposait 10 mm sous le circuit et donnait 110 mm. Le cadrage reste celui d'aujourd'hui : champ ≈ 137 × 103 mm
+au niveau de la carte, la carte en occupe ~67 % × 59 %.
 
 Choix de l'assistant : une cale ne peut que remonter la tête, donc la
-potence est dessinée 3 mm plus basse (107 mm sans cale) et livrée avec des
+potence est dessinée 3 mm plus basse (113 mm sans cale) et livrée avec des
 cales de 1 à 5 mm à glisser entre l'empreinte et la tête (ou sous le plateau,
 au choix du constructeur). La cale de 3 mm donne la hauteur nominale ; on
 corrige dans les deux sens sans réimprimer la potence.
@@ -170,7 +172,7 @@ jusqu'à la cuvette. Dimensions de la batterie et longueur du fil à relever
 
 - Cuvette ouverte par le dessus plutôt qu'un tiroir (proposition de
   l'assistant, non contestée) : la carte se pose à la main sous la caméra
-  (110 mm de dégagement), sans glissière qui prenne du jeu.
+  (116 mm de dégagement), sans glissière qui prenne du jeu.
 - Contour de la cuvette tiré du Gerber, avec un jeu de quelques dixièmes.
 - La carte repose à plat par les bords du circuit sur un rebord, au-dessus
   d'un creux de ~10 mm qui loge les composants du dessous (support de pile
@@ -194,7 +196,7 @@ jusqu'à la cuvette. Dimensions de la batterie et longueur du fil à relever
    l'ajustement des cotes prises sur photo avant la pièce complète.
 2. Pièce complète, puis capture avec `/dev/video4` : la carte doit tenir dans
    le champ avec la même échelle qu'aujourd'hui (~23 px/mm au plan de la
-   carte, à recalculer pour 110 mm), et aucun bord de la pièce ne doit être
+   carte, ≈ 23,8 px/mm pour 116 mm), et aucun bord de la pièce ne doit être
    visible.
 3. Réglage fin de la hauteur avec les cales de 1 à 5 mm, ou par le
    paramètre de hauteur.

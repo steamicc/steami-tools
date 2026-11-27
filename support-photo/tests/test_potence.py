@@ -9,8 +9,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from openscad import ErreurOpenSCAD, bbox, est_vide, rendre  # noqa: E402
 
-PROFONDEUR_SOCLE = 1.6 + 8.4 + 1 + 3  # pcb + composants + 1 + fond
-Z_APPUI_TETE = 110 - 3 + 7  # z_objectif + anneau_saillie
+PROFONDEUR_SOCLE = 14  # socle_epaisseur
+Z_APPUI_TETE = 116 - 3 + 7  # objectif_carte - marge_cale + anneau_saillie (V1c posée : circuit à ~4 mm de la table)
 BORD_HAUTEUR = 6
 
 
@@ -83,3 +83,13 @@ def test_vis_de_patte_ne_bute_pas_sur_le_montant():
 def test_bord_tient_la_tete_avec_la_cale_max():
     with pytest.raises(ErreurOpenSCAD, match="Assertion"):
         rendre("gabarit", bord_hauteur=6, cale_epaisseur=5)
+
+
+def test_place_des_connecteurs_grove():
+    # V1b : les deux connecteurs Grove, sous la carte et au bord, ne doivent pas reposer sur le rebord
+    assert est_vide("controle_grove")
+
+
+def test_passage_usb_sous_le_circuit():
+    # la fiche USB-C est branchée sous le circuit : le passage descend jusqu'à 6,5 mm sous le dessus
+    assert est_vide("controle_usb")

@@ -167,7 +167,7 @@
 - [ ] **Step 3 : Vérifier sur l'image :**
   - la carte est entière et centrée ;
   - aucun bord de pièce ni de table n'est visible ;
-  - l'échelle au plan de la carte vaut environ 25,1 px/mm (23,2 × 119/110), à mesurer avec la règle posée sur la carte ;
+  - l'échelle au plan de la carte vaut environ 23,8 px/mm (23,2 × 119/116 ; hauteur corrigée de 110 à 116 mm), à mesurer avec la règle posée sur la carte ;
   - aucun câble ne soulève la carte ;
   - la carte est bien à plat : l'échelle est la même aux deux bouts de la règle (à 1 % près) ;
   - le reflet de l'anneau lumineux sur l'écran est acceptable.

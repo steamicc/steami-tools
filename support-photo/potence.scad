@@ -105,6 +105,18 @@ if (piece == "gabarit" || piece == "bras") {
         hull() for (dx = [-reglage_patte, reglage_patte])
             translate([x_trou + dx, patte_decalage, 0]) cylinder(d = 4.5, h = 200);
     }
+} else if (piece == "controle_grove") {
+    intersection() {
+        pied();
+        repere_carte() for (sx = [-1, 1])
+            translate([sx > 0 ? grove_gerber[0][0] : -grove_gerber[1][0], grove_gerber[0][1], -(pcb_epaisseur + 7)])
+                cube([grove_gerber[1][0] - grove_gerber[0][0], grove_gerber[1][1] - grove_gerber[0][1], 7 - 0.01]);
+    }
+} else if (piece == "controle_usb") {
+    intersection() {
+        pied();
+        repere_carte() rotate(usb_angle) translate([-5, usb_rayon_depart + 1, -6.5]) cube([10, 20, 6.5]);
+    }
 } else {
     assert(false, str("pièce inconnue : ", piece));
 }
