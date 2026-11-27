@@ -2,7 +2,7 @@
 // Choisir la pièce avec `piece`, par exemple :
 //   openscad -o stl/gabarit.stl -D 'piece="gabarit"' potence.scad
 
-piece = "potence";  // "bras" (= "gabarit") | "pied" | "potence" | "controle_champ"
+piece = "potence";  // "bras" (= "gabarit") | "gabarit_carte" | "pied" | "potence" | "controle_champ"
 //                     contrôles : "controle_cable" | "controle_cable_bas" | "controle_jonction" | "controle_jonction_matiere"
 
 include <scad/parametres.scad>
@@ -18,6 +18,12 @@ if (piece == "gabarit" || piece == "bras") {
 } else if (piece == "pied") {
     // socle + montant, posé à plat
     translate([0, 0, socle_epaisseur]) pied();
+} else if (piece == "gabarit_carte") {
+    // essai rapide de la cuvette : le socle réduit à 6 mm autour de la carte
+    translate([0, 0, socle_epaisseur]) difference() {
+        translate([0, 0, -socle_epaisseur]) linear_extrude(socle_epaisseur) offset(r = 6) carte_2d();
+        cuvette();
+    }
 } else if (piece == "potence") {
     // assemblage en place, pour les contrôles
     potence();

@@ -32,7 +32,9 @@ La potence se compose de deux pièces assemblées une fois pour toutes :
 
 Le bras sert aussi de **gabarit d'essai** : l'imprimer en premier permet de
 vérifier l'ajustement de la tête avant de lancer le pied, plus long à
-imprimer.
+imprimer. De même, `stl/gabarit-carte.stl` reproduit la cuvette seule (toute la
+profondeur du socle, 6 mm autour de la carte) pour vérifier l'ajustement de la
+carte.
 
 Les cotes de la tête et de la carte, et leur origine, sont dans
 [`releves.md`](releves.md). La conception est décrite dans
@@ -51,6 +53,7 @@ Les cotes de la tête et de la carte, et leur origine, sont dans
 |---|---|---|---|
 | Bras (gabarit) | `stl/gabarit.stl` | à plat, plateau sur le plateau d'impression | aucun |
 | Pied | `stl/pied.stl` | debout, socle sur le plateau d'impression | aucun |
+| Essai de la cuvette | `stl/gabarit-carte.stl` | à plat | aucun |
 | Cales | `stl/cale-1.stl` à `stl/cale-5.stl` | à plat | aucun |
 
 Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de

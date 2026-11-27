@@ -58,3 +58,13 @@ def test_pied_pose_a_plat():
 def test_bras_pose_a_plat():
     (_, _, zmin), _ = bbox(rendre("bras"))
     assert zmin == pytest.approx(0, abs=0.01)
+
+
+def test_gabarit_carte():
+    # essai de la cuvette seule : toute la profondeur du socle, 6 mm autour de la carte
+    (xmin, ymin, zmin), (xmax, ymax, zmax) = bbox(rendre("gabarit_carte"))
+    assert zmin == pytest.approx(0, abs=0.01)
+    assert zmax == pytest.approx(PROFONDEUR_SOCLE, abs=0.01)
+    # carte 61,1 × 91,7 mm, grand côté sur Y (capteur_rotation = 90), plus 2 × 6 mm
+    assert xmax - xmin == pytest.approx(61.1 + 12, abs=0.5)
+    assert ymax - ymin == pytest.approx(91.7 + 12, abs=0.5)
