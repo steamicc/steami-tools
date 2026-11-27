@@ -1,5 +1,6 @@
 // Empreinte de la tête de caméra : plateau, bords, ouverture de l'anneau,
-// plot sous la patte avec trou M5 et logement d'écrou (ouvert sur -Y).
+// plot sous la patte avec trou M5 et logement d'écrou (ouvert sur +X),
+// et deux trous M5 pour fixer le bras sur le montant.
 // Nécessite parametres.scad.
 
 assert(
@@ -19,8 +20,8 @@ module corps_2d() {
 // Emprise du plot sous la patte (au-delà de la fenêtre du câble).
 module plot_2d() {
     x0 = x_bord_patte + fenetre_patte;
-    translate([x0, patte_decalage - patte_largeur / 2 - bord_epaisseur])
-        square([x_bout_patte + bord_epaisseur - x0, patte_largeur + 2 * bord_epaisseur]);
+    translate([x0, patte_decalage - jonction_largeur / 2])
+        square([x_bout_patte + bord_epaisseur - x0, jonction_largeur]);
 }
 
 module ecrou_m5() {
@@ -52,13 +53,19 @@ module empreinte_tete() {
         // passage du câble : bord ouvert au droit de la patte
         translate([x_bord_patte - 1, patte_decalage - patte_largeur / 2 - 2, z_appui_tete])
             cube([jeu_tete + bord_epaisseur + 2, patte_largeur + 4, bord_hauteur + 1]);
+        // passage du câble vers le bas, sous la fenêtre de la patte
+        translate([x_bord_patte + jeu_tete + bord_epaisseur, patte_decalage - cable_passage / 2, z_bas - 1])
+            cube([fenetre_patte - jeu_tete - bord_epaisseur - 3, cable_passage, plateau_epaisseur + 2]);
         // trou de vis, traversant
         translate([x_trou, patte_decalage, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
-        // logement d'écrou, ouvert sur -Y
+        // trous des vis de jonction avec le montant
+        for (dy = [-jonction_entraxe / 2, jonction_entraxe / 2])
+            translate([x_trou, patte_decalage + dy, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
+        // logement d'écrou, ouvert vers le bout du plot (+X)
         translate([x_trou, patte_decalage, z_plot - ecrou_profondeur - ecrou_epaisseur - jeu_ecrou]) {
             rotate([0, 0, 30]) ecrou_m5();
-            translate([-(ecrou_plats + jeu_ecrou) / 2, -40, 0])
-                cube([ecrou_plats + jeu_ecrou, 40, ecrou_epaisseur + jeu_ecrou]);
+            translate([0, -(ecrou_plats + jeu_ecrou) / 2, 0])
+                cube([40, ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou]);
         }
     }
 }

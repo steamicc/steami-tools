@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from openscad import ErreurOpenSCAD, bbox, rendre  # noqa: E402
 
 PLATEAU_EPAISSEUR = 5
-PATTE_HAUTEUR_PLOT = 19.5 - 9  # tete_epaisseur - patte_epaisseur
+PATTE_HAUTEUR_PLOT = 22.5 - 7.5  # tete_epaisseur - patte_epaisseur
 
 
 @pytest.fixture(scope="module")
@@ -44,3 +44,25 @@ def test_passage_du_cable_ouvert():
     from openscad import est_vide
 
     assert est_vide("controle_cable")
+
+
+def test_cable_descend_sous_la_fenetre():
+    # le câble sort de la fenêtre de la patte vers le bas : le pont du plateau doit être percé
+    from openscad import est_vide
+
+    assert est_vide("controle_cable_bas")
+
+
+def test_trous_de_jonction_traversants():
+    # les deux vis M5 qui fixent le bras au montant traversent le plot de part en part
+    from openscad import est_vide
+
+    assert est_vide("controle_jonction")
+
+
+def test_matiere_autour_des_trous_de_jonction():
+    # le plot doit entourer chaque vis de jonction (couronne Ø 7 à Ø 11)
+    from openscad import bbox, rendre
+
+    (xmin, ymin, _), (xmax, ymax, _) = bbox(rendre("controle_jonction_matiere"))
+    assert ymax - ymin >= 32 + 11 - 0.5  # les deux couronnes sont présentes

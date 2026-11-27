@@ -12,7 +12,7 @@ cale_epaisseur = 0;     // cale glissée sous la tête (0 à 5 mm) : sert au cal
 // --- Tête de la caméra ---------------------------------------------------
 tete_longueur = 111;
 tete_largeur = 55;
-tete_epaisseur = 19.5;
+tete_epaisseur = 22.5;           // photo de profil avec règle posée dessus (2e mesure)
 tete_rayon = 27.5;              // bout arrondi, opposé à la patte
 objectif_depuis_bout = 26;      // centre de l'objectif -> bout arrondi
 anneau_diametre = 52;
@@ -22,11 +22,12 @@ ouverture_anneau = anneau_diametre + 3;
 // --- Patte de fixation ---------------------------------------------------
 patte_largeur = 18;
 patte_longueur = 45;
-patte_epaisseur = 9;            // affleure la face des boutons
+patte_epaisseur = 7.5;          // partie percée, affleure la face des boutons
 patte_decalage = 2.5;           // décalage de l'axe de la patte, vers +Y
 trou_depuis_bout = 12;
 trou_diametre = 5.5;
-fenetre_patte = 18;             // longueur de la fenêtre du câble, depuis le corps
+cable_passage = 12;             // largeur du passage du câble dans le pont du plateau
+fenetre_patte = 23;             // partie épaisse de la patte (fenêtre du câble), depuis le corps
 
 // --- Empreinte -----------------------------------------------------------
 jeu_tete = 0.5;
@@ -39,7 +40,9 @@ ecrou_plats = 8;
 ecrou_epaisseur = 4;
 jeu_ecrou = 0.3;
 ecrou_profondeur = 3;           // matière entre le dessus du plot et l'écrou
-vis_longueur = 20;              // sous tête
+vis_longueur = 20;              // sous tête (vis de la patte)
+jonction_entraxe = 32;          // 2 vis M5 bras -> montant, de part et d'autre de la patte
+jonction_largeur = 44;          // largeur du plot et du dessus du montant (Y)
 
 // --- Relevés de la tâche 1 ----------------------------------------------
 capteur_rotation = 90;          // 90 : le grand côté de l'image suit Y
