@@ -30,11 +30,19 @@ def _lancer(piece, params):
     return resultat, sortie
 
 
+MOTS_ERREUR = ("ERROR", "Assertion", "unknown", "undefined", "Ignoring")
+
+
+def _verifier(resultat):
+    """Toute erreur ou tout avertissement de nom inconnu fait échouer le rendu."""
+    if resultat.returncode != 0 or any(m in resultat.stderr for m in MOTS_ERREUR):
+        raise ErreurOpenSCAD(resultat.stderr)
+
+
 def rendre(piece, **params):
     """Rend une pièce en STL et renvoie son chemin ; lève ErreurOpenSCAD en cas d'échec."""
     resultat, sortie = _lancer(piece, params)
-    if resultat.returncode != 0 or "ERROR" in resultat.stderr or "Assertion" in resultat.stderr:
-        raise ErreurOpenSCAD(resultat.stderr)
+    _verifier(resultat)
     if not sortie.exists():
         raise ErreurOpenSCAD("aucun STL produit :\n" + resultat.stderr)
     return sortie
@@ -43,9 +51,13 @@ def rendre(piece, **params):
 def est_vide(piece, **params):
     """Vrai si OpenSCAD ne produit aucune géométrie pour cette pièce."""
     resultat, sortie = _lancer(piece, params)
-    if "ERROR" in resultat.stderr or "Assertion" in resultat.stderr:
+    if any(m in resultat.stderr for m in MOTS_ERREUR):
         raise ErreurOpenSCAD(resultat.stderr)
-    return "empty" in resultat.stderr.lower() or not sortie.exists() or bbox_ou_rien(sortie) is None
+    if "Current top level object is empty" in resultat.stderr:
+        return True
+    if resultat.returncode != 0:
+        raise ErreurOpenSCAD(resultat.stderr)
+    return bbox_ou_rien(sortie) is None
 
 
 def bbox_ou_rien(stl):

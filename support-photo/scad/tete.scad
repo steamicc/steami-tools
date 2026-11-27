@@ -3,6 +3,7 @@
 // et deux trous M5 pour fixer le bras sur le montant.
 // Nécessite parametres.scad.
 
+assert(bord_hauteur - cale_epaisseur >= 4, "bord trop bas : la cale ne laisse pas 4 mm de bord autour de la tête");
 assert(
     vis_longueur >= patte_epaisseur + cale_epaisseur + ecrou_profondeur + ecrou_epaisseur + 1,
     "vis trop courte : elle doit dépasser de l'écrou d'au moins 1 mm"
@@ -19,7 +20,7 @@ module corps_2d() {
 
 // Emprise du plot sous la patte (au-delà de la fenêtre du câble).
 module plot_2d() {
-    x0 = x_bord_patte + fenetre_patte;
+    x0 = x_montant;
     translate([x0, patte_decalage - jonction_largeur / 2])
         square([x_bout_patte + bord_epaisseur - x0, jonction_largeur]);
 }
@@ -30,7 +31,6 @@ module ecrou_m5() {
 
 module empreinte_tete() {
     z_bas = z_appui_tete - plateau_epaisseur;
-    z_plot = z_appui_tete + plot_hauteur;
     difference() {
         union() {
             // plateau sous le corps, prolongé jusqu'au plot
@@ -38,7 +38,7 @@ module empreinte_tete() {
                 offset(r = jeu_tete + bord_epaisseur) corps_2d();
                 plot_2d();
                 translate([x_bord_patte, patte_decalage - patte_largeur / 2 - bord_epaisseur])
-                    square([fenetre_patte, patte_largeur + 2 * bord_epaisseur]);
+                    square([x_montant - x_bord_patte + 0.01, patte_largeur + 2 * bord_epaisseur]);
             }
             // bords autour du corps
             translate([0, 0, z_appui_tete]) linear_extrude(bord_hauteur) difference() {
@@ -57,7 +57,8 @@ module empreinte_tete() {
         translate([x_bord_patte + jeu_tete + bord_epaisseur, patte_decalage - cable_passage / 2, z_bas - 1])
             cube([fenetre_patte - jeu_tete - bord_epaisseur - 3, cable_passage, plateau_epaisseur + 2]);
         // trou de vis, traversant
-        translate([x_trou, patte_decalage, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
+        hull() for (dx = [-reglage_patte, reglage_patte])
+            translate([x_trou + dx, patte_decalage, z_bas - 1]) cylinder(d = trou_diametre, h = z_plot - z_bas + 2);
         // trous des vis de jonction avec le montant
         for (dy = [-jonction_entraxe / 2, jonction_entraxe / 2])
             translate([x_trou, patte_decalage + dy, z_bas - 1]) {
@@ -66,10 +67,12 @@ module empreinte_tete() {
                     cylinder(d = jonction_lamage[0], h = jonction_lamage[1] + 1);
             }
         // logement d'écrou, ouvert vers le bout du plot (+X)
-        translate([x_trou, patte_decalage, z_plot - ecrou_profondeur - ecrou_epaisseur - jeu_ecrou]) {
-            rotate([0, 0, 30]) ecrou_m5();
-            translate([0, -(ecrou_plats + jeu_ecrou) / 2, 0])
-                cube([40, ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou]);
-        }
+        translate([x_trou - reglage_patte, patte_decalage, z_ecrou_patte])
+            ecrou_balaye(ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou);
     }
+}
+
+// Écrou M5 (plats face à ±Y) balayé de l'axe vers +X : sert aux contrôles.
+module ecrou_balaye(plats, h) {
+    hull() for (dx = [0, 40]) translate([dx, 0, 0]) cylinder(d = plats / cos(30), h = h, $fn = 6);
 }

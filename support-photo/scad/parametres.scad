@@ -28,11 +28,13 @@ trou_depuis_bout = 12;
 trou_diametre = 5.5;
 cable_passage = 12;             // largeur du passage du câble dans le pont du plateau
 fenetre_patte = 23;             // partie épaisse de la patte (fenêtre du câble), depuis le corps
+reglage_patte = 1.5;            // trou de patte oblong : ±1,5 mm selon X
+jeu_fenetre = 1.5;              // jeu entre la partie épaisse de la patte et le plot
 
 // --- Empreinte -----------------------------------------------------------
 jeu_tete = 0.5;
 plateau_epaisseur = 5;
-bord_hauteur = 6;
+bord_hauteur = 9;               // reste >= 4 mm de bord avec la cale de 5 mm
 bord_epaisseur = 2.4;
 
 // --- Visserie M5 ---------------------------------------------------------
@@ -88,5 +90,10 @@ z_champ = z_objectif + cale_max;                         // objectif le plus hau
 champ_sol = champ_ref * z_champ / champ_ref_distance + [2, 2] * marge_champ;
 champ_xy = capteur_rotation == 90 ? [champ_sol[1], champ_sol[0]] : champ_sol;
 socle_xy = capteur_rotation == 90 ? [socle_min[1], socle_min[0]] : socle_min;
-x_montant = x_bord_patte + fenetre_patte;               // face avant du montant (côté carte)
+x_montant = x_bord_patte + fenetre_patte + jeu_fenetre; // face avant du montant et début du plot
 x_dos = x_bout_patte + bord_epaisseur;                  // face arrière du montant
+
+// --- Corrections après relecture ----------------------------------------
+z_plot = z_appui_tete + plot_hauteur;
+z_ecrou_patte = z_plot - ecrou_profondeur - ecrou_epaisseur - jeu_ecrou;
+z_ecrou_jonction = z_appui_tete - plateau_epaisseur - jonction_ecrou_profondeur - ecrou_epaisseur - jeu_ecrou;

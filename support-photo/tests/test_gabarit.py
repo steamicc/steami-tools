@@ -66,3 +66,17 @@ def test_matiere_autour_des_trous_de_jonction():
 
     (xmin, ymin, _), (xmax, ymax, _) = bbox(rendre("controle_jonction_matiere"))
     assert ymax - ymin >= 30 + 11 - 0.5  # entraxe 30 : les deux couronnes sont présentes
+
+
+def test_jeu_devant_le_plot():
+    # 1,5 mm libres au-delà de la partie épaisse de la patte, au-dessus du plateau
+    from openscad import est_vide
+
+    assert est_vide("controle_fenetre")
+
+
+def test_trou_de_patte_oblong():
+    # la vis de la patte peut se décaler de ±1,5 mm selon X
+    from openscad import est_vide
+
+    assert est_vide("controle_trou_patte")

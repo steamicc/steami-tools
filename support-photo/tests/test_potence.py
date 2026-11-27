@@ -68,3 +68,18 @@ def test_gabarit_carte():
     # carte 61,1 × 91,7 mm, grand côté sur Y (capteur_rotation = 90), plus 2 × 6 mm
     assert xmax - xmin == pytest.approx(61.1 + 12, abs=0.5)
     assert ymax - ymin == pytest.approx(91.7 + 12, abs=0.5)
+
+
+def test_ecrous_glissent_jusqu_a_l_axe():
+    # un écrou M5 (8 mm sur plats, plats face à ±Y) poussé dans chaque fente
+    # depuis le bout ouvert doit atteindre l'axe de sa vis
+    assert est_vide("controle_ecrous")
+
+
+def test_vis_de_patte_ne_bute_pas_sur_le_montant():
+    assert est_vide("controle_vis_patte")
+
+
+def test_bord_tient_la_tete_avec_la_cale_max():
+    with pytest.raises(ErreurOpenSCAD, match="Assertion"):
+        rendre("gabarit", bord_hauteur=6, cale_epaisseur=5)

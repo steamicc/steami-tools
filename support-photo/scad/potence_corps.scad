@@ -25,15 +25,14 @@ module montant() {
                     linear_extrude(nervure[2])
                         polygon([[0.01, 0], [-nervure[0], 0], [0.01, nervure[1]]]);
         }
+        // dégagement pour le bout de la vis de la patte
+        hull() for (dx = [-reglage_patte, reglage_patte])
+            translate([x_trou + dx, patte_decalage, z_haut - 15]) cylinder(d = trou_diametre + 1, h = 16);
         // vis de jonction : trou et écrou captif (fente ouverte vers l'arrière, +X)
         for (dy = [-jonction_entraxe / 2, jonction_entraxe / 2])
             translate([x_trou, patte_decalage + dy, 0]) {
                 translate([0, 0, z_haut - 30]) cylinder(d = trou_diametre, h = 31);
-                translate([0, 0, z_haut - jonction_ecrou_profondeur - ecrou_epaisseur - jeu_ecrou]) {
-                    rotate([0, 0, 30]) ecrou_m5();
-                    translate([0, -(ecrou_plats + jeu_ecrou) / 2, 0])
-                        cube([40, ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou]);
-                }
+                translate([0, 0, z_ecrou_jonction]) ecrou_balaye(ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou);
             }
     }
 }

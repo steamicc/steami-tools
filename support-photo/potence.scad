@@ -73,6 +73,38 @@ if (piece == "gabarit" || piece == "bras") {
                 translate([0, 0, -1]) cylinder(d = 7, h = 202);
             }
     }
+} else if (piece == "controle_ecrous") {
+    // écrous poussés dans leurs fentes jusqu'à l'axe (et -1,5 mm pour celui de la patte)
+    intersection() {
+        potence();
+        union() {
+            translate([x_trou - reglage_patte, patte_decalage, z_ecrou_patte + 0.15])
+                ecrou_balaye(8.0, ecrou_epaisseur);
+            for (dy = [-jonction_entraxe / 2, jonction_entraxe / 2])
+                translate([x_trou, patte_decalage + dy, z_ecrou_jonction + 0.15])
+                    ecrou_balaye(8.0, ecrou_epaisseur);
+        }
+    }
+} else if (piece == "controle_vis_patte") {
+    // sous la patte, le haut du montant doit laisser passer le bout de la vis
+    intersection() {
+        pied();
+        hull() for (dx = [-reglage_patte, reglage_patte])
+            translate([x_trou + dx, patte_decalage, z_appui_tete - plateau_epaisseur - 12])
+                cylinder(d = 4.5, h = 13);
+    }
+} else if (piece == "controle_fenetre") {
+    intersection() {
+        empreinte_tete();
+        translate([x_bord_patte + fenetre_patte, patte_decalage - patte_largeur / 2, z_appui_tete + 0.01])
+            cube([jeu_fenetre - 0.01, patte_largeur, plot_hauteur + 5]);
+    }
+} else if (piece == "controle_trou_patte") {
+    intersection() {
+        empreinte_tete();
+        hull() for (dx = [-reglage_patte, reglage_patte])
+            translate([x_trou + dx, patte_decalage, 0]) cylinder(d = 4.5, h = 200);
+    }
 } else {
     assert(false, str("pièce inconnue : ", piece));
 }
