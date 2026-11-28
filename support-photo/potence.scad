@@ -2,7 +2,7 @@
 // Choisir la pièce avec `piece`, par exemple :
 //   openscad -o stl/gabarit.stl -D 'piece="gabarit"' potence.scad
 
-piece = "potence";  // "bras" (= "gabarit") | "gabarit_carte" | "pied" | "potence" | "controle_champ"
+piece = "potence";  // "bras" (= "gabarit") | "gabarit_carte" | "socle" | "poteau" | "potence" | "controle_champ"
 //                     contrôles : "controle_cable" | "controle_cable_bas" | "controle_jonction" | "controle_jonction_matiere"
 
 include <scad/parametres.scad>
@@ -15,9 +15,24 @@ include <scad/cale.scad>
 if (piece == "gabarit" || piece == "bras") {
     // bras (empreinte de la tête), posé à plat : sert aussi de gabarit d'essai
     translate([0, 0, -(z_appui_tete - plateau_epaisseur)]) bras();
-} else if (piece == "pied") {
-    // socle + montant, posé à plat
-    translate([0, 0, socle_epaisseur]) pied();
+} else if (piece == "socle") {
+    // socle, dessus vers le haut
+    translate([0, 0, socle_epaisseur]) socle();
+} else if (piece == "poteau") {
+    // poteau debout sur sa semelle
+    translate([0, 0, empreinte_profondeur]) poteau();
+} else if (piece == "controle_semelle") {
+    // semelle emboîtée dans le socle : doit être vide
+    intersection() {
+        socle();
+        poteau();
+    }
+} else if (piece == "controle_jeu_semelle") {
+    // poteau décalé de decalage_controle : touche le socle si le jeu est plus petit
+    intersection() {
+        socle();
+        translate(decalage_controle) poteau();
+    }
 } else if (piece == "gabarit_carte") {
     // essai rapide de la cuvette : le socle réduit à 6 mm autour de la carte
     translate([0, 0, socle_epaisseur]) difference() {
@@ -88,7 +103,7 @@ if (piece == "gabarit" || piece == "bras") {
 } else if (piece == "controle_vis_patte") {
     // sous la patte, le haut du montant doit laisser passer le bout de la vis
     intersection() {
-        pied();
+        poteau();
         hull() for (dx = [-reglage_patte, reglage_patte])
             translate([x_trou + dx, patte_decalage, z_appui_tete - plateau_epaisseur - 12])
                 cylinder(d = 4.5, h = 13);
@@ -107,14 +122,14 @@ if (piece == "gabarit" || piece == "bras") {
     }
 } else if (piece == "controle_grove") {
     intersection() {
-        pied();
+        socle();
         repere_carte() for (sx = [-1, 1])
             translate([sx > 0 ? grove_gerber[0][0] : -grove_gerber[1][0], grove_gerber[0][1], -(pcb_epaisseur + 7)])
                 cube([grove_gerber[1][0] - grove_gerber[0][0], grove_gerber[1][1] - grove_gerber[0][1], 7 - 0.01]);
     }
 } else if (piece == "controle_usb") {
     intersection() {
-        pied();
+        socle();
         repere_carte() rotate(usb_angle) translate([-5, usb_rayon_depart + 1, -6.5]) cube([10, 20, 6.5]);
     }
 } else {

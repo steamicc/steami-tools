@@ -80,3 +80,9 @@ def bbox(stl):
     if boite is None:
         raise ErreurOpenSCAD(f"STL vide : {stl}")
     return boite
+
+
+def facettes(stl):
+    """Facettes d'un STL ASCII, triées : deux rendus du même solide donnent la même liste."""
+    sommets = [ligne.split()[1:4] for ligne in Path(stl).read_text().splitlines() if ligne.strip().startswith("vertex")]
+    return sorted(tuple(tuple(s) for s in sommets[i : i + 3]) for i in range(0, len(sommets), 3))
