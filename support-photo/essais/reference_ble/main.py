@@ -16,12 +16,14 @@ import time
 import aioble
 from steami import Humidity, Screen, Temperature
 from steami_screen import DARK, GRAY, WHITE
-from xiaomi_ble import decoder
+
+from xiaomi_ble import decoder, humidite_ramenee
 
 CIBLE = ""          # "" : le plus proche ; sinon adresse MAC ou nom BLE
 OUBLI = 30          # s : un capteur muet depuis plus longtemps n'est plus choisi
 PERIODE_CSV = 5     # s
 MAX_CAPTEURS = 20   # borne la mémoire si beaucoup de capteurs sont à portée
+HYSTERESIS = 6      # dB : un autre capteur doit être nettement plus fort pour remplacer le suivi
 
 # L'écran d'abord : sa mémoire d'image est allouée à begin(), avant que le tas se fragmente.
 ECRAN = Screen()
@@ -33,6 +35,7 @@ temperature.begin()
 humidite.begin()
 
 capteurs = {}  # adresse -> {"nom", "rssi", "vu", "m"}
+suivi = None   # adresse du capteur affiché
 debut = time.ticks_ms()
 
 
@@ -61,7 +64,14 @@ def choisir():
             if a == cible or capteurs[a]["nom"].upper() == cible:
                 return a
         return None
-    return max(vivants, key=lambda a: capteurs[a]["rssi"]) if vivants else None
+    global suivi
+    if not vivants:
+        return None
+    meilleur = max(vivants, key=lambda a: capteurs[a]["rssi"])
+    # deux capteurs côte à côte ont presque le même RSSI : garder le capteur suivi
+    if suivi not in vivants or capteurs[meilleur]["rssi"] >= capteurs[suivi]["rssi"] + HYSTERESIS:
+        suivi = meilleur
+    return suivi
 
 
 async def scanner():
@@ -106,14 +116,14 @@ def ecart(a, b, fmt):
 
 async def afficher():
     dernier_csv = -PERIODE_CSV
-    print("t_s;adresse;rssi;format;T_ref;HR_ref;T_carte;HR_carte")
+    print("t_s;adresse;rssi;format;T_ref;HR_ref;T_carte;HR_carte;HR_ref_a_T_carte")
     while True:
         t_carte, h_carte = temperature.read(), humidite.read()
         a = choisir()
         ECRAN.clear()
         ECRAN.title("Reference BLE")
         texte("Carte", 30, GRAY)
-        texte(mesure(t_carte, h_carte), 40)
+        texte(mesure(t_carte, h_carte), 39)
         if a is None:
             texte("Xiaomi ?", 60, GRAY)
             texte("recherche...", 70, DARK)
@@ -121,15 +131,19 @@ async def afficher():
             c = capteurs[a]
             m = c["m"]
             t_ref, h_ref = m.get("temperature"), m.get("humidite")
-            texte(c["nom"] or a[-8:], 56, GRAY)
-            texte(mesure(t_ref, h_ref), 66)
-            texte("Ecart", 80, GRAY)
-            texte(ecart(t_carte, t_ref, "{:+.1f}C") + " " + ecart(h_carte, h_ref, "{:+.1f}%"), 90)
-            texte("{}dBm {}s".format(c["rssi"], maintenant() - c["vu"]), 104, DARK)
+            # la carte s'échauffe : son humidité se compare à celle de l'air de la
+            # référence porté à la température de la carte (Tc)
+            h_ram = humidite_ramenee(t_ref, h_ref, t_carte)
+            texte(c["nom"] or a[-8:], 52, GRAY)
+            texte(mesure(t_ref, h_ref), 61)
+            texte("HR à Tc " + ("--%" if h_ram is None else f"{h_ram:.1f}%"), 70, GRAY)
+            texte("Ecart", 82, GRAY)
+            texte(ecart(t_carte, t_ref, "{:+.1f}C") + " " + ecart(h_carte, h_ram, "{:+.1f}%"), 91)
+            texte("{}dB {}s".format(c["rssi"], maintenant() - c["vu"]), 104, DARK)
             if maintenant() - dernier_csv >= PERIODE_CSV:
                 dernier_csv = maintenant()
                 print(";".join((str(maintenant()), a, str(c["rssi"]), m["format"],
-                                nombre(t_ref), nombre(h_ref), nombre(t_carte), nombre(h_carte))))
+                                nombre(t_ref), nombre(h_ref), nombre(t_carte), nombre(h_carte), nombre(h_ram))))
         ECRAN.show()
         await asyncio.sleep(1)
 

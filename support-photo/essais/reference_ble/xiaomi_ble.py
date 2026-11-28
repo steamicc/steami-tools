@@ -6,6 +6,7 @@ Formats du micrologiciel pvvx (https://github.com/pvvx/ATC_MiThermometer) :
 d'origine (MiBeacon, chiffré) est seulement signalé.
 """
 
+import math
 import struct
 
 UUID_ENV = 0x181A  # pvvx et atc1441
@@ -103,3 +104,22 @@ def decoder(trame):
         if uuid == UUID_MIBEACON:
             return {"format": "mibeacon"}
     return None
+
+
+def _pression_saturante(t):
+    """Pression de vapeur saturante (hPa) à t °C, formule de Magnus (Sonntag 1990)."""
+    return 6.112 * math.exp(17.62 * t / (243.12 + t))
+
+
+def humidite_ramenee(t_ref, h_ref, t_cible):
+    """Humidité relative (%) qu'aurait l'air de la référence porté à t_cible °C.
+
+    La quantité de vapeur ne change pas : seule la pression saturante suit la
+    température. Sert à comparer l'humidité d'une carte qui s'échauffe à celle
+    d'une référence restée à la température de la pièce. None si une mesure manque.
+    """
+    for v in (t_ref, h_ref, t_cible):
+        if v is None or math.isnan(v):
+            return None
+    return h_ref * _pression_saturante(t_ref) / _pression_saturante(t_cible)
+

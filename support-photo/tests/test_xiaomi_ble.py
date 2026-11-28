@@ -12,7 +12,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "essais" / "reference_ble"))
 
-from xiaomi_ble import decoder  # noqa: E402
+from xiaomi_ble import decoder, humidite_ramenee  # noqa: E402
 
 MAC = bytes.fromhex("A4C138AABBCC")  # ordre d'affichage
 
@@ -104,3 +104,21 @@ def test_autre_appareil():
 
 def test_trame_tronquee():
     assert decoder(DRAPEAUX + ad(0x16, b"\x1a\x18" + MAC)) is None
+
+
+def test_humidite_ramenee_a_une_temperature_plus_chaude():
+    # essai du 2026-11-28 : air à 24,0 °C et 35,3 % HR, carte à 28,3 °C -> environ 27,4 % HR
+    assert humidite_ramenee(24.0, 35.3, 28.3) == pytest.approx(27.4, abs=0.2)
+
+
+def test_humidite_ramenee_meme_temperature():
+    assert humidite_ramenee(22.0, 50.0, 22.0) == pytest.approx(50.0)
+
+
+def test_humidite_ramenee_plus_froid_monte():
+    assert humidite_ramenee(25.0, 40.0, 20.0) > 40.0
+
+
+@pytest.mark.parametrize("valeurs", [(None, 40.0, 25.0), (25.0, None, 25.0), (25.0, 40.0, float("nan"))])
+def test_humidite_ramenee_mesure_absente(valeurs):
+    assert humidite_ramenee(*valeurs) is None

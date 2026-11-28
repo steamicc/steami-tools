@@ -46,8 +46,20 @@ fonctionnant, et les deux capteurs n'ont pas la même inertie.
 |---|---|
 | Carte | température et humidité mesurées par la carte |
 | nom du capteur | température et humidité reçues du Xiaomi |
-| Ecart | carte moins référence |
+| HR à Tc | humidité qu'aurait l'air de la référence porté à la température de la carte (Tc) |
+| Ecart | carte moins référence : température, puis humidité de la carte moins « HR à Tc » |
 | bas de l'écran | RSSI du capteur et âge de la dernière trame, en secondes |
+
+La carte s'échauffe en fonctionnant : son capteur mesure un air plus chaud,
+donc plus sec en humidité relative, que celui de la pièce. Pour la même
+quantité de vapeur d'eau, l'humidité relative baisse quand la température
+monte (formule de Magnus). Comparer l'humidité de la carte à « HR à Tc »
+retire cet effet et ne laisse que l'erreur du capteur.
+
+Lors d'un essai de 10 minutes sur une V1c (écran allumé, scan BLE continu),
+la carte restait environ 4,3 °C au-dessus de deux Xiaomi qui s'accordaient
+entre eux à 0,15 °C et 1 % HR. L'écart d'humidité brut valait environ
+−11 % HR, et environ −4 % HR une fois ramené à la température de la carte.
 
 « -- » signale une mesure absente : capteur de la carte qui ne répond pas, ou
 format qui ne transmet pas l'humidité.
@@ -58,7 +70,7 @@ Le port série reçoit d'abord une ligne `# capteur ...` par thermomètre
 découvert (adresse, nom, format, RSSI), puis toutes les 5 secondes :
 
 ```text
-t_s;adresse;rssi;format;T_ref;HR_ref;T_carte;HR_carte
+t_s;adresse;rssi;format;T_ref;HR_ref;T_carte;HR_carte;HR_ref_a_T_carte
 ```
 
 Pour l'enregistrer : `mpremote run main.py | tee essai.csv`.
@@ -67,7 +79,9 @@ Pour l'enregistrer : `mpremote run main.py | tee essai.csv`.
 
 Par défaut (`CIBLE = ""`), le programme suit le Xiaomi reçu avec le meilleur
 RSSI parmi ceux entendus depuis moins de 30 secondes : en pratique, celui
-posé contre la carte. Pour en imposer un, donner son adresse MAC ou son nom
+posé contre la carte. Il le garde tant qu'un autre n'est pas reçu au moins
+6 dB plus fort, pour ne pas sauter d'un capteur à l'autre quand deux sont
+côte à côte. Pour en imposer un, donner son adresse MAC ou son nom
 BLE dans `CIBLE`, en tête de `main.py`.
 
 ## Précision attendue
