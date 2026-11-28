@@ -14,6 +14,7 @@ cadrage, et la carte se change en quelques secondes.
 - [Prise de vue](#prise-de-vue)
 - [Modifier le modèle](#modifier-le-modèle)
 - [Tests](#tests)
+- [Essais des capteurs](#essais-des-capteurs)
 
 ## Principe
 
@@ -164,3 +165,12 @@ pytest support-photo/tests -q
 ```
 
 Prévoir environ huit minutes.
+
+## Essais des capteurs
+
+Le dossier [`essais/`](essais/) rassemble des programmes pour la carte, à
+lancer sous la potence afin de valider ses capteurs sur la photo :
+
+- [`essais/reference_ble/`](essais/reference_ble/) : compare la température
+  et l'humidité de la carte à celles d'un thermo-hygromètre Xiaomi
+  LYWSD03MMC (micrologiciel pvvx) reçues par BLE.
