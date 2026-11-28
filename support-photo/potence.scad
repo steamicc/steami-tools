@@ -100,6 +100,29 @@ if (piece == "gabarit" || piece == "bras") {
                     ecrou_balaye(8.0, ecrou_epaisseur);
         }
     }
+} else if (piece == "controle_ecrous_pied") {
+    // écrous du pied poussés dans leurs fentes jusqu'à l'axe, avant la pose : doit être vide
+    intersection() {
+        poteau();
+        for (p = pied_vis) translate([p[0], p[1], z_ecrou_pied + 0.15]) rotate(p[1] > patte_decalage ? 90 : -90)
+            ecrou_balaye(8.0, ecrou_epaisseur);
+    }
+} else if (piece == "controle_vis_pied") {
+    // corps des vis du pied (Ø 4,5), du dessous du socle à leur bout : doit être vide
+    intersection() {
+        union() {
+            socle();
+            poteau();
+        }
+        for (p = pied_vis) translate([p[0], p[1], -socle_epaisseur - 1])
+            cylinder(d = 4.5, h = z_tete_vis_pied + vis_pied_longueur + socle_epaisseur + 1);
+    }
+} else if (piece == "controle_tete_vis_pied") {
+    // têtes des vis du pied (Ø 9) dans les lamages : doit être vide
+    intersection() {
+        socle();
+        for (p = pied_vis) translate([p[0], p[1], -socle_epaisseur - 1]) cylinder(d = 9, h = pied_lamage[1] + 0.5);
+    }
 } else if (piece == "controle_vis_patte") {
     // sous la patte, le haut du montant doit laisser passer le bout de la vis
     intersection() {

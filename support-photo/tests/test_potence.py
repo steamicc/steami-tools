@@ -119,3 +119,23 @@ def test_place_des_connecteurs_grove():
 def test_passage_usb_sous_le_circuit():
     # la fiche USB-C est branchée sous le circuit : le passage descend jusqu'à 6,5 mm sous le dessus
     assert est_vide("controle_usb")
+
+
+def test_ecrous_du_pied_glissent_jusqu_a_l_axe():
+    # écrou M5 (8 mm sur plats) poussé dans sa fente depuis la face latérale du poteau
+    assert est_vide("controle_ecrous_pied")
+
+
+def test_vis_du_pied_passent():
+    # Ø 4,5 du dessous du socle jusqu'au bout de la vis M5 × 25
+    assert est_vide("controle_vis_pied")
+
+
+def test_tetes_de_vis_sous_le_socle():
+    # têtes Ø 9 dans les lamages : le socle reste à plat sur la table
+    assert est_vide("controle_tete_vis_pied")
+
+
+def test_vis_du_pied_trop_courte():
+    with pytest.raises(ErreurOpenSCAD, match="vis du pied trop courte"):
+        rendre("socle", vis_pied_longueur=10)

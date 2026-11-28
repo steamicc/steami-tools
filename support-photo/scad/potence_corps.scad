@@ -15,6 +15,14 @@ assert(
         || x_semelle - jeu_semelle - 2 >= batterie_position[0] + batterie[0] + 2,
     "empreinte de la semelle sur la poche de batterie"
 );
+assert(
+    vis_pied_longueur >= z_ecrou_pied + ecrou_epaisseur + jeu_ecrou + 1 - z_tete_vis_pied,
+    "vis du pied trop courte"
+);
+assert(
+    z_tete_vis_pied + vis_pied_longueur + 2 < z_ecrou_jonction,
+    "vis du pied trop longue"
+);
 
 module socle_bloc() {
     translate([-socle_xy[0] / 2, -socle_xy[1] / 2, -socle_epaisseur])
@@ -70,11 +78,26 @@ module socle() {
         batterie_logement();
         // empreinte de la semelle du poteau
         translate([0, 0, z_semelle]) linear_extrude(empreinte_profondeur + 1) offset(r = jeu_semelle) semelle_2d();
+        // vis du poteau, têtes dans des lamages par le dessous
+        for (p = pied_vis) translate([p[0], p[1], -socle_epaisseur - 1]) {
+            cylinder(d = trou_diametre, h = socle_epaisseur + 2);
+            cylinder(d = pied_lamage[0], h = pied_lamage[1] + 1);
+        }
     }
 }
 
 module poteau() {
-    montant();
+    difference() {
+        montant();
+        for (p = pied_vis) translate([p[0], p[1], 0]) {
+            // trou borgne jusqu'au bout de la vis + 1 mm
+            translate([0, 0, z_semelle - 1])
+                cylinder(d = trou_diametre, h = z_tete_vis_pied + vis_pied_longueur + 2 - z_semelle);
+            // écrou captif, glissé depuis la face latérale la plus proche avant la pose
+            translate([0, 0, z_ecrou_pied]) rotate(p[1] > patte_decalage ? 90 : -90)
+                ecrou_balaye(ecrou_plats + jeu_ecrou, ecrou_epaisseur + jeu_ecrou);
+        }
+    }
 }
 
 module bras() {
