@@ -17,23 +17,27 @@ cadrage, et la carte se change en quelques secondes.
 
 ## Principe
 
-La potence se compose de deux pièces assemblées une fois pour toutes :
+La potence se compose de trois pièces assemblées une fois pour toutes :
 
 - **le bras** (`stl/gabarit.stl`) : une empreinte de la tête de caméra. La
   tête y repose à plat, côté objectif, ce qui garantit son horizontalité.
   L'anneau lumineux passe par l'ouverture ronde. La patte de la tête est vissée
   sur le plot, avec un écrou captif.
-- **le pied** (`stl/pied.stl`) : un socle qui remplit tout le champ de la
-  caméra et sert de fond aux photos, et un montant qui porte le bras. La carte
-  se pose dans une cuvette et repose par les bords du circuit sur un rebord.
+- **le poteau** (`stl/poteau.stl`) : il porte le bras. Il se termine en bas
+  par une semelle emboîtée dans le socle et vissée par le dessous. C'est la
+  seule pièce qui fixe la hauteur de la caméra : en cas d'erreur de hauteur,
+  il suffit de le réimprimer.
+- **le socle** (`stl/socle.stl`) : il remplit tout le champ de la caméra et
+  sert de fond aux photos. La carte se pose dans une cuvette et repose par
+  les bords du circuit sur un rebord.
   Le creux sous la carte loge les composants du dessous (buzzer de la
   V1c, connecteurs Grove de la V1b). Le
   câble USB-C sort par une rainure. La batterie LiPo se range dans une poche
   hors du champ, et son fil passe par un tunnel.
 
 Le bras sert aussi de **gabarit d'essai** : l'imprimer en premier permet de
-vérifier l'ajustement de la tête avant de lancer le pied, plus long à
-imprimer. De même, `stl/gabarit-carte.stl` reproduit la cuvette seule (toute la
+vérifier l'ajustement de la tête avant de lancer le socle et le poteau,
+plus longs à imprimer. De même, `stl/gabarit-carte.stl` reproduit la cuvette seule (toute la
 profondeur du socle, 6 mm autour de la carte) pour vérifier l'ajustement de la
 carte.
 
@@ -43,35 +47,46 @@ Les cotes de la tête et de la carte, et leur origine, sont dans
 
 ## Matériel
 
-- 3 vis M5 × 25 à tête cylindrique : une pour la patte, deux pour fixer le bras
-  sur le montant ;
-- 3 écrous M5 ;
-- du filament **gris mat** pour le pied, qui sert de fond aux photos.
+- 7 vis M5 × 25 à tête cylindrique : une pour la patte, deux pour fixer le
+  bras sur le poteau, quatre pour fixer le poteau sur le socle ;
+- 7 écrous M5 ;
+- du filament **gris mat** pour le socle, qui sert de fond aux photos.
 
 ## Impression
 
 | Pièce | Fichier | Position | Supports |
 |---|---|---|---|
 | Bras (gabarit) | `stl/gabarit.stl` | à plat, plateau sur le plateau d'impression | aucun |
-| Pied | `stl/pied.stl` | debout, socle sur le plateau d'impression | aucun |
+| Socle | `stl/socle.stl` | à plat, dessus vers le haut | aucun |
+| Poteau | `stl/poteau.stl` | debout, semelle sur le plateau d'impression | aucun |
 | Essai de la cuvette | `stl/gabarit-carte.stl` | à plat | aucun |
 | Cales | `stl/cale-1.stl` à `stl/cale-5.stl` | à plat | aucun |
 
 Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de
-9 mm. Le pied mesure environ 190 × 150 × 129 mm.
+9 mm, les plafonds des lamages sous le socle des ponts de 10 mm (lamages de
+6 mm de profondeur pour des têtes de 5 mm). Le socle mesure environ 196 × 158 × 14 mm, le poteau environ
+56 × 44 × 120 mm.
 
 ## Montage
 
-1. Glisser un écrou M5 dans chacune des deux fentes du haut du montant
+1. Glisser un écrou M5 dans chacune des quatre fentes du bas du poteau
+   (ouvertes sur les côtés), puis emboîter la semelle dans l'empreinte du
+   socle. La paroi de l'empreinte retient les écrous.
+2. Sans retourner l'ensemble, faire dépasser l'arrière du socle du bord de la
+   table d'environ 30 mm, puis visser les quatre vis M5 × 25 par le dessous.
+   Couché sur un côté, l'ensemble laisserait les écrous glisser hors de l'axe
+   des vis. Les têtes se logent dans les lamages : le socle reste à plat sur
+   la table.
+3. Glisser un écrou M5 dans chacune des deux fentes du haut du poteau
    (ouvertes vers l'arrière).
-2. Poser le bras sur le montant, plot au-dessus du montant, et le fixer avec
+4. Poser le bras sur le poteau, plot au-dessus du poteau, et le fixer avec
    deux vis M5 × 25 par les deux trous lamés du plot.
-3. Glisser un écrou M5 dans la fente au bout du plot.
-4. Détacher la tête de caméra de son bras articulé. Poser la cale choisie
+5. Glisser un écrou M5 dans la fente au bout du plot.
+6. Détacher la tête de caméra de son bras articulé. Poser la cale choisie
    dans l'empreinte (voir ci-dessous), puis la tête, objectif vers le bas,
    câble passé par l'ouverture du pont. Poser la rondelle de la cale sur le
    plot, sous la patte.
-5. Visser la patte avec la troisième vis M5 × 25, sans forcer : la tête doit
+7. Visser la patte avec une vis M5 × 25, sans forcer : la tête doit
    rester à plat dans l'empreinte.
 
 ## Réglage de la hauteur
@@ -84,7 +99,10 @@ la V1c posée à ~4 mm). Les autres cales corrigent dans les deux sens, de 114 �
 une rondelle pour la patte, de même épaisseur.
 
 Pour un écart de plus de 2 mm, modifier `objectif_carte` ou `marge_cale` dans
-`scad/parametres.scad` et réimprimer.
+`scad/parametres.scad` et réimprimer **le poteau seul** : le socle ne dépend
+pas de la hauteur. Il couvre le champ de la caméra jusqu'à
+`objectif_carte = 126`, soit 10 mm de plus que la hauteur nominale ; au-delà,
+un `assert` demande d'agrandir le socle.
 
 ## Prise de vue
 
@@ -111,20 +129,20 @@ sont en Python 3 et demandent numpy, Pillow et pytest.
 | `scad/parametres.scad` | toutes les cotes, avec leur origine |
 | `scad/tete.scad` | empreinte de la tête (bras) |
 | `scad/carte.scad` | placement de la carte et cuvette |
-| `scad/potence_corps.scad` | pied, assemblage, champ de la caméra |
+| `scad/potence_corps.scad` | socle, poteau, assemblage, champ de la caméra |
 | `scad/cale.scad` | cales de hauteur |
 | `scad/carte_contour.scad` | contour de la carte, généré |
 
 Exporter une pièce :
 
 ```bash
-openscad -o stl/pied.stl -D 'piece="pied"' potence.scad
+openscad -o stl/poteau.stl -D 'piece="poteau"' potence.scad
 openscad -o stl/cale-3.stl -D 'piece="cale"' -D cale_epaisseur=3 potence.scad
 ```
 
 Des `assert()` arrêtent le rendu si une cote rend la pièce inutilisable : vis
 trop courte, creux trop profond pour le socle, socle plus petit que le champ,
-montant dans le champ.
+poteau ou semelle dans le champ, empreinte du poteau sur la poche de batterie.
 
 Le contour de la carte vient du Gerber `donnees/STeaMi.GKO` du dépôt
 [steami-reference-design](https://github.com/steamicc/steami-reference-design)
@@ -138,11 +156,11 @@ python3 outils/gerber_contour.py donnees/STeaMi.GKO scad/carte_contour.scad
 ## Tests
 
 Les tests rendent chaque pièce avec OpenSCAD et vérifient les STL produits :
-dimensions, passages du câble, trous de vis, cales, et surtout qu'**aucune
+dimensions, passages du câble, trous de vis, emboîtement du poteau, cales, et surtout qu'**aucune
 partie de la potence n'entre dans le champ de la caméra**.
 
 ```bash
 pytest support-photo/tests -q
 ```
 
-Prévoir environ deux minutes.
+Prévoir environ huit minutes.

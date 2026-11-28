@@ -68,7 +68,7 @@ jeu_carte = 0.3;
 rebord = 2.5;                   // largeur d'appui du circuit
 fond_epaisseur = 3;
 socle_epaisseur = 14;           // >= pcb + composants + 1 + fond
-socle_min = [150, 115];         // [grand côté, petit côté] du champ, centré sur l'axe
+socle_min = [158, 120];         // [grand côté, petit côté] : couvre le champ jusqu'à objectif_carte = 126 (poteau réimprimé plus haut)
 decalage_carte = [0, 0];        // [x, y] : décaler la carte sous l'objectif
 doigt_rayon = 9;                // encoches pour saisir la carte
 doigt_gerber = [24.1, -40];     // bord de la carte (repère Gerber), symétrique en X
@@ -80,6 +80,18 @@ tunnel = [8, 6];                // largeur, hauteur du tunnel du fil de batterie
 nervure = [30, 40, 5];          // longueur, hauteur, épaisseur des renforts du montant
 jonction_lamage = [10, 10];     // diamètre, profondeur du lamage des vis de jonction
 jonction_ecrou_profondeur = 4;  // matière entre le dessus du montant et l'écrou
+semelle_epaisseur = 8;          // semelle du poteau, emboîtée dans le socle
+empreinte_profondeur = 5;       // empreinte de la semelle dans le dessus du socle
+jeu_semelle = 0.2;
+semelle_rayon = 1;              // arêtes verticales de la semelle (coins de l'empreinte)
+socle_arriere = 4;              // socle prolongé derrière le poteau pour fermer l'empreinte
+decalage_controle = [0, 0];     // contrôle du jeu de la semelle (tests)
+vis_pied_longueur = 25;         // M5 × 25 par le dessous du socle, comme les autres vis
+pied_lamage = [10, 6];          // diamètre, profondeur des lamages sous le socle (tête de 5 mm + affaissement du pont)
+pied_vis_ecart = 10;            // vis à ±10 mm de l'axe de la patte (Y)
+pied_vis_recul = [5.5, 6.5];    // rangées de vis : depuis la face avant, depuis la face arrière du montant
+ecrou_pied_hauteur = 3;         // matière sous l'écrou, dans la semelle
+semelle_chanfrein = 0.5;        // chanfrein du dessous de la semelle (pied d'éléphant)
 
 // --- Champ de la caméra -------------------------------------------------
 champ_ref = [140.6, 105.4];     // mesuré à champ_ref_distance de l'objectif
@@ -94,6 +106,12 @@ champ_xy = capteur_rotation == 90 ? [champ_sol[1], champ_sol[0]] : champ_sol;
 socle_xy = capteur_rotation == 90 ? [socle_min[1], socle_min[0]] : socle_min;
 x_montant = x_bord_patte + fenetre_patte + jeu_fenetre; // face avant du montant et début du plot
 x_dos = x_bout_patte + bord_epaisseur;                  // face arrière du montant
+x_semelle = x_montant - nervure[0] - 3;                 // avant de la semelle, devant les nervures
+z_semelle = -empreinte_profondeur;                      // dessous de la semelle = fond de l'empreinte
+z_ecrou_pied = z_semelle + ecrou_pied_hauteur;
+z_tete_vis_pied = -socle_epaisseur + pied_lamage[1];   // appui des têtes de vis, au fond des lamages
+pied_vis = [for (x = [x_montant + pied_vis_recul[0], x_dos - pied_vis_recul[1]]) for (sy = [-1, 1])
+    [x, patte_decalage + sy * pied_vis_ecart]];
 
 // --- Corrections après relecture ----------------------------------------
 z_plot = z_appui_tete + plot_hauteur;
