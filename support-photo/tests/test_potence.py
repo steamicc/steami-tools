@@ -139,3 +139,8 @@ def test_tetes_de_vis_sous_le_socle():
 def test_vis_du_pied_trop_courte():
     with pytest.raises(ErreurOpenSCAD, match="vis du pied trop courte"):
         rendre("socle", vis_pied_longueur=10)
+
+
+def test_semelle_chanfreinee():
+    # le premier couche s'écrase (pied d'éléphant) : un chanfrein évite qu'il bloque la semelle dans l'empreinte
+    assert est_vide("controle_chanfrein_semelle")

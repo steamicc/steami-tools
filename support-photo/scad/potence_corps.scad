@@ -41,7 +41,12 @@ module montant() {
     z_dessus_semelle = z_semelle + semelle_epaisseur;
     difference() {
         union() {
-            translate([0, 0, z_semelle]) linear_extrude(semelle_epaisseur) semelle_2d();
+            // semelle, chanfreinée en bas pour que la première couche écrasée ne bloque pas dans l'empreinte
+            hull() {
+                translate([0, 0, z_semelle]) linear_extrude(0.01) offset(delta = -semelle_chanfrein) semelle_2d();
+                translate([0, 0, z_semelle + semelle_chanfrein])
+                    linear_extrude(semelle_epaisseur - semelle_chanfrein) semelle_2d();
+            }
             // le montant part du dessus de la semelle : ses coins vifs ne débordent pas de l'empreinte
             translate([x_montant, patte_decalage - jonction_largeur / 2, z_dessus_semelle - 0.01])
                 cube([x_dos - x_montant, jonction_largeur, z_haut - z_dessus_semelle + 0.01]);

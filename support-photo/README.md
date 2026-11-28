@@ -63,7 +63,8 @@ Les cotes de la tête et de la carte, et leur origine, sont dans
 | Cales | `stl/cale-1.stl` à `stl/cale-5.stl` | à plat | aucun |
 
 Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de
-9 mm. Le socle mesure environ 196 × 158 × 14 mm, le poteau environ
+9 mm, les plafonds des lamages sous le socle des ponts de 10 mm (lamages de
+6 mm de profondeur pour des têtes de 5 mm). Le socle mesure environ 196 × 158 × 14 mm, le poteau environ
 56 × 44 × 120 mm.
 
 ## Montage
@@ -71,9 +72,11 @@ Les fentes des écrous et le tunnel de la batterie sont des ponts de moins de
 1. Glisser un écrou M5 dans chacune des quatre fentes du bas du poteau
    (ouvertes sur les côtés), puis emboîter la semelle dans l'empreinte du
    socle. La paroi de l'empreinte retient les écrous.
-2. Retourner l'ensemble sur le côté et visser les quatre vis M5 × 25 par le
-   dessous du socle. Les têtes se logent dans les lamages : le socle reste à
-   plat sur la table.
+2. Sans retourner l'ensemble, faire dépasser l'arrière du socle du bord de la
+   table d'environ 30 mm, puis visser les quatre vis M5 × 25 par le dessous.
+   Couché sur un côté, l'ensemble laisserait les écrous glisser hors de l'axe
+   des vis. Les têtes se logent dans les lamages : le socle reste à plat sur
+   la table.
 3. Glisser un écrou M5 dans chacune des deux fentes du haut du poteau
    (ouvertes vers l'arrière).
 4. Poser le bras sur le poteau, plot au-dessus du poteau, et le fixer avec

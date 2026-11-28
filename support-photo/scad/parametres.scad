@@ -87,10 +87,11 @@ semelle_rayon = 1;              // arêtes verticales de la semelle (coins de l'
 socle_arriere = 4;              // socle prolongé derrière le poteau pour fermer l'empreinte
 decalage_controle = [0, 0];     // contrôle du jeu de la semelle (tests)
 vis_pied_longueur = 25;         // M5 × 25 par le dessous du socle, comme les autres vis
-pied_lamage = [10, 5];          // diamètre, profondeur des lamages sous le socle (têtes affleurantes)
+pied_lamage = [10, 6];          // diamètre, profondeur des lamages sous le socle (tête de 5 mm + affaissement du pont)
 pied_vis_ecart = 10;            // vis à ±10 mm de l'axe de la patte (Y)
 pied_vis_recul = [5.5, 6.5];    // rangées de vis : depuis la face avant, depuis la face arrière du montant
 ecrou_pied_hauteur = 3;         // matière sous l'écrou, dans la semelle
+semelle_chanfrein = 0.5;        // chanfrein du dessous de la semelle (pied d'éléphant)
 
 // --- Champ de la caméra -------------------------------------------------
 champ_ref = [140.6, 105.4];     // mesuré à champ_ref_distance de l'objectif

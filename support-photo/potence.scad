@@ -121,7 +121,17 @@ if (piece == "gabarit" || piece == "bras") {
     // têtes des vis du pied (Ø 9) dans les lamages : doit être vide
     intersection() {
         socle();
-        for (p = pied_vis) translate([p[0], p[1], -socle_epaisseur - 1]) cylinder(d = 9, h = pied_lamage[1] + 0.5);
+        // tête M5 de 5 mm (ISO 4762) + 0,5 mm pour l'affaissement du plafond imprimé en pont
+        for (p = pied_vis) translate([p[0], p[1], -socle_epaisseur - 1]) cylinder(d = 9, h = 1 + 5 + 0.5);
+    }
+} else if (piece == "controle_chanfrein_semelle") {
+    // bande de 0,2 mm au bord du dessous de la semelle, sur 0,25 mm : doit être vide (pied d'éléphant)
+    intersection() {
+        poteau();
+        translate([0, 0, z_semelle - 1]) linear_extrude(1.25) difference() {
+            offset(delta = 1) semelle_2d();
+            offset(delta = -0.2) semelle_2d();
+        }
     }
 } else if (piece == "controle_vis_patte") {
     // sous la patte, le haut du montant doit laisser passer le bout de la vis
